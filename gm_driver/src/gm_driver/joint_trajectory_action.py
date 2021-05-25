@@ -57,7 +57,7 @@ class JointTrajectoryActionServer():
                         current_goal.positions,
                         time_passed / goal_duration
                     )
-                    self._nb_set_position(current_goal.positions)
+                    self._nb_set_position(linear_position)
                     rate.sleep()
                     time_passed = rospy.get_time() - start_time
                     self._update_feedback(current_goal.positions, time_passed)
