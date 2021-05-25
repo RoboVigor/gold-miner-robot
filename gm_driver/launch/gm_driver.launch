@@ -1,0 +1,4 @@
+<launch>
+  <node name="joint_state_publisher" pkg="gm_driver" type="joint_state_publisher.py" />
+  <node name="joint_trajectory_action" pkg="gm_driver" type="joint_trajectory_action.py" />
+</launch>
