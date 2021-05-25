@@ -11,7 +11,7 @@ find_package(catkin REQUIRED COMPONENTS
   actionlib
   rospy
   sensor_msgs
-  td_msgs
+  std_msgs
   trajectory_msgs
 )
 
@@ -72,7 +72,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate added messages and services with any dependencies listed here
 # generate_messages(
 #   DEPENDENCIES
-#   sensor_msgs#   td_msgs#   trajectory_msgs
+#   sensor_msgs#   std_msgs#   trajectory_msgs
 # )
 
 ################################################
@@ -107,7 +107,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES gm_driver
-#  CATKIN_DEPENDS actionlib rospy sensor_msgs td_msgs trajectory_msgs
+#  CATKIN_DEPENDS actionlib rospy sensor_msgs std_msgs trajectory_msgs
 #  DEPENDS system_lib
 )
 
@@ -161,10 +161,11 @@ include_directories(
 
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
-# catkin_install_python(PROGRAMS
-#   scripts/my_python_script
-#   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-# )
+catkin_install_python(PROGRAMS
+  src/joint_state_publisher/joint_state_publisher.py
+  src/joint_trajectory_action/joint_trajectory_action.py
+  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
 
 ## Mark executables for installation
 ## See http://docs.ros.org/melodic/api/catkin/html/howto/format1/building_executables.html
