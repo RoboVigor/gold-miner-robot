@@ -1,6 +1,6 @@
 moveit_setup_assistant_config:
   URDF:
-    package: gold_miner_robot
+    package: gm_description
     relative_path: urdf/Miner_robotic_arm_6_link.urdf
     xacro_args: ""
   SRDF:
