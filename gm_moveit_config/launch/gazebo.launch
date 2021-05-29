@@ -2,7 +2,7 @@
 <launch>
   <arg name="paused" default="false"/>
   <arg name="gazebo_gui" default="true"/>
-  <arg name="urdf_path" default="$(find gm_description)/urdf/Miner_robotic_arm_6_link.urdf"/>
+  <arg name="urdf_path" default="$(find gm_description)/urdf/gold_miner_robot.urdf"/>
 
   <!-- startup simulated world -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">

@@ -1,5 +1,5 @@
 <package format="2">
-  <name>gold_miner_robot</name>
+  <name>gm_description</name>
   <version>1.0.0</version>
   <description>
     <p>URDF Description package for gold_miner_robot</p>

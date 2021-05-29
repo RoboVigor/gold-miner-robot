@@ -1,12 +1,12 @@
 controller_list:
-  - name: fake_default_controller
+  - name: fake_gold_miner_arm_controller
     type: $(arg execution_type)
     joints:
-      - joint2
-      - joint3
-      - joint4
-      - joint5
-      - joint6
+      - base_joint
+      - shoulder_joint
+      - elbow_joint
+      - wrist_joint_1
+      - wrist_joint_2
 initial:  # Define initial robot poses.
-  - group: default
+  - group: gold_miner_arm
     pose: default

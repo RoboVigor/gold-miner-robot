@@ -3,7 +3,7 @@
   <name>gm_moveit_config</name>
   <version>0.3.0</version>
   <description>
-     An automatically generated package with all the configuration and launch files for using the gold miner robot with the MoveIt Motion Planning Framework
+     An automatically generated package with all the configuration and launch files for using the gold_miner_robot with the MoveIt Motion Planning Framework
   </description>
   <author email="coin12.wu@gmail.com">Link Wu</author>
   <maintainer email="coin12.wu@gmail.com">Link Wu</maintainer>

@@ -26,7 +26,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://gold_miner_robot/meshes/base.STL" />
+          filename="package://gm_description/meshes/base.STL" />
       </geometry>
       <material
         name="">
@@ -40,7 +40,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://gold_miner_robot/meshes/base.STL" />
+          filename="package://gm_description/meshes/base.STL" />
       </geometry>
     </collision>
   </link>
@@ -66,7 +66,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://gold_miner_robot/meshes/base_joint.STL" />
+          filename="package://gm_description/meshes/base_joint.STL" />
       </geometry>
       <material
         name="">
@@ -80,7 +80,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://gold_miner_robot/meshes/base_joint.STL" />
+          filename="package://gm_description/meshes/base_joint.STL" />
       </geometry>
     </collision>
   </link>
@@ -130,7 +130,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://gold_miner_robot/meshes/shoulder_joint.STL" />
+          filename="package://gm_description/meshes/shoulder_joint.STL" />
       </geometry>
       <material
         name="">
@@ -144,7 +144,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://gold_miner_robot/meshes/shoulder_joint.STL" />
+          filename="package://gm_description/meshes/shoulder_joint.STL" />
       </geometry>
     </collision>
   </link>
@@ -194,7 +194,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://gold_miner_robot/meshes/elbow_joint.STL" />
+          filename="package://gm_description/meshes/elbow_joint.STL" />
       </geometry>
       <material
         name="">
@@ -208,7 +208,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://gold_miner_robot/meshes/elbow_joint.STL" />
+          filename="package://gm_description/meshes/elbow_joint.STL" />
       </geometry>
     </collision>
   </link>
@@ -225,8 +225,8 @@
     <axis
       xyz="0 1 0" />
     <limit
-      lower="3.14"
-      upper="-3.14"
+      lower="-3.14"
+      upper="3.14"
       effort="150"
       velocity="5" />
     <calibration
@@ -258,7 +258,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://gold_miner_robot/meshes/wrist_joint_1.STL" />
+          filename="package://gm_description/meshes/wrist_joint_1.STL" />
       </geometry>
       <material
         name="">
@@ -272,7 +272,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://gold_miner_robot/meshes/wrist_joint_1.STL" />
+          filename="package://gm_description/meshes/wrist_joint_1.STL" />
       </geometry>
     </collision>
   </link>
@@ -322,7 +322,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://gold_miner_robot/meshes/wrist_joint_2.STL" />
+          filename="package://gm_description/meshes/wrist_joint_2.STL" />
       </geometry>
       <material
         name="">
@@ -336,7 +336,7 @@
         rpy="0 0 0" />
       <geometry>
         <mesh
-          filename="package://gold_miner_robot/meshes/wrist_joint_2.STL" />
+          filename="package://gm_description/meshes/wrist_joint_2.STL" />
       </geometry>
     </collision>
   </link>

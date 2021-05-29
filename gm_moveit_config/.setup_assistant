@@ -1,11 +1,11 @@
 moveit_setup_assistant_config:
   URDF:
     package: gm_description
-    relative_path: urdf/Miner_robotic_arm_6_link.urdf
+    relative_path: urdf/gold_miner_robot.urdf
     xacro_args: ""
   SRDF:
     relative_path: config/gold_miner_robot.srdf
   CONFIG:
     author_name: Link Wu
     author_email: coin12.wu@gmail.com
-    generated_timestamp: 1621808901
+    generated_timestamp: 1622269839
