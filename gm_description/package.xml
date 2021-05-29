@@ -1,10 +1,10 @@
 <package format="2">
-  <name>gm_description</name>
+  <name>gold_miner_robot</name>
   <version>1.0.0</version>
   <description>
-    <p>URDF Description package for gm_description</p>
+    <p>URDF Description package for gold_miner_robot</p>
     <p>This package contains configuration data, 3D models and launch files
-for gm_description robot</p>
+for gold_miner_robot robot</p>
   </description>
   <author>TODO</author>
   <maintainer email="TODO@email.com" />

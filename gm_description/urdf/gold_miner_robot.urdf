@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-1-g15f4949  Build Version: 1.6.7594.29634
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="gold_miner_robot">
+  <link
+    name="base">
+    <inertial>
+      <origin
+        xyz="2.5768E-11 6.9944E-15 -0.011533"
+        rpy="0 0 0" />
+      <mass
+        value="0.11676" />
+      <inertia
+        ixx="0.00014497"
+        ixy="1.8246E-20"
+        ixz="1.6654E-21"
+        iyy="0.00014497"
+        iyz="-2.4266E-21"
+        izz="0.00028671" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://gold_miner_robot/meshes/base.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.83137 0.67059 0.12941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://gold_miner_robot/meshes/base.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="base_joint">
+    <inertial>
+      <origin
+        xyz="-0.0009956 -0.021775 0.016253"
+        rpy="0 0 0" />
+      <mass
+        value="0.98759" />
+      <inertia
+        ixx="0.00035371"
+        ixy="2.8816E-07"
+        ixz="1.0067E-07"
+        iyy="0.00032502"
+        iyz="5.0562E-07"
+        izz="0.00045929" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://gold_miner_robot/meshes/base_joint.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://gold_miner_robot/meshes/base_joint.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="base_joint"
+    type="revolute">
+    <origin
+      xyz="0 0 0"
+      rpy="0 0 0" />
+    <parent
+      link="base" />
+    <child
+      link="base_joint" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="150"
+      velocity="5" />
+    <calibration
+      rising="0"
+      falling="0" />
+    <dynamics
+      damping="0"
+      friction="0" />
+  </joint>
+  <link
+    name="shoulder_joint">
+    <inertial>
+      <origin
+        xyz="0.19156 0.0023594 0.002667"
+        rpy="0 0 0" />
+      <mass
+        value="0.83124" />
+      <inertia
+        ixx="0.00019357"
+        ixy="-8.1355E-06"
+        ixz="-0.00011829"
+        iyy="0.0011102"
+        iyz="-1.273E-06"
+        izz="0.0010673" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://gold_miner_robot/meshes/shoulder_joint.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.75294 0.75294 0.75294 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://gold_miner_robot/meshes/shoulder_joint.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="shoulder_joint"
+    type="revolute">
+    <origin
+      xyz="0 0 0.08"
+      rpy="0 0 1.5708" />
+    <parent
+      link="base_joint" />
+    <child
+      link="shoulder_joint" />
+    <axis
+      xyz="0 -1 0" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="150"
+      velocity="5" />
+    <calibration
+      rising="0"
+      falling="0" />
+    <dynamics
+      damping="0"
+      friction="0" />
+  </joint>
+  <link
+    name="elbow_joint">
+    <inertial>
+      <origin
+        xyz="0.012668 -0.0013346 0.028552"
+        rpy="0 0 0" />
+      <mass
+        value="0.39061" />
+      <inertia
+        ixx="0.00038987"
+        ixy="4.5103E-16"
+        ixz="-1.9132E-14"
+        iyy="0.00024933"
+        iyz="-1.9483E-08"
+        izz="0.00020385" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://gold_miner_robot/meshes/elbow_joint.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.49804 0.49804 0.49804 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://gold_miner_robot/meshes/elbow_joint.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="elbow_joint"
+    type="revolute">
+    <origin
+      xyz="0.36739 0 0.043869"
+      rpy="0 0.11885 3.1416" />
+    <parent
+      link="shoulder_joint" />
+    <child
+      link="elbow_joint" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="3.14"
+      upper="-3.14"
+      effort="150"
+      velocity="5" />
+    <calibration
+      rising="0"
+      falling="0" />
+    <dynamics
+      damping="0"
+      friction="0" />
+  </joint>
+  <link
+    name="wrist_joint_1">
+    <inertial>
+      <origin
+        xyz="0.00032538 0.0068003 0.12894"
+        rpy="0 0 0" />
+      <mass
+        value="0.61324" />
+      <inertia
+        ixx="0.00063368"
+        ixy="-2.8396E-07"
+        ixz="9.4741E-07"
+        iyy="0.00067814"
+        iyz="-3.803E-06"
+        izz="0.00036527" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://gold_miner_robot/meshes/wrist_joint_1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.89804 0.91765 0.92941 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://gold_miner_robot/meshes/wrist_joint_1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="wrist_joint_1"
+    type="revolute">
+    <origin
+      xyz="0 0 0.075"
+      rpy="1.5708 0 1.5708" />
+    <parent
+      link="elbow_joint" />
+    <child
+      link="wrist_joint_1" />
+    <axis
+      xyz="0 0 -1" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="150"
+      velocity="5" />
+    <calibration
+      rising="0"
+      falling="0" />
+    <dynamics
+      damping="0"
+      friction="0" />
+  </joint>
+  <link
+    name="wrist_joint_2">
+    <inertial>
+      <origin
+        xyz="0.14718 0.0021493 -0.035964"
+        rpy="0 0 0" />
+      <mass
+        value="2.4957" />
+      <inertia
+        ixx="0.15459"
+        ixy="3.317E-10"
+        ixz="-0.0027381"
+        iyy="0.012051"
+        iyz="2.0368E-06"
+        izz="0.151" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://gold_miner_robot/meshes/wrist_joint_2.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.75294 0.75294 0.75294 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://gold_miner_robot/meshes/wrist_joint_2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="wrist_joint_2"
+    type="revolute">
+    <origin
+      xyz="0 0 0.327"
+      rpy="-0.013655 -1.5708 1.5708" />
+    <parent
+      link="wrist_joint_1" />
+    <child
+      link="wrist_joint_2" />
+    <axis
+      xyz="0 1 0" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="150"
+      velocity="5" />
+    <calibration
+      rising="0"
+      falling="0" />
+    <dynamics
+      damping="0"
+      friction="0" />
+  </joint>
+</robot>
