@@ -26,21 +26,21 @@ class JointStatePublisher():
                              jointState, self._on_nb_received)
 
     def _on_nb_received(self, data):
-        position_factor = 1/8192*3.14
+        position_factor = 1/8192*3.14*2
         self._position = [data.base_joint_position*position_factor, data.shoulder_joint_position*position_factor,
                                     data.elbow_joint_position*position_factor, data.wrist_joint_1_position*position_factor, data.wrist_joint_2_position*position_factor]
         self.publish_position()
 
     def publish_position(self):
         jointstate_data = JointState()
-        jointstate_data.name = [
-            'joint2', 'joint3', 'joint4', 'joint5', 'joint6']
+        jointstate_data.header.stamp = rospy.Duration.from_sec(rospy.get_time())
+        jointstate_data.name = ['base_joint', 'shoulder_joint', 'elbow_joint', 'wrist_joint_1', 'wrist_joint_2']
         jointstate_data.position = [0]*5
         jointstate_data.position[0] = 0
         jointstate_data.position[1] = 3.14/180*37
         jointstate_data.position[2] = self._euler_data2['pitch']-jointstate_data.position[1]
         jointstate_data.position[3] = self._position[3]
-        jointstate_data.position[4] = self._euler_data1['pitch']-self._euler_data2['pitch']
+        jointstate_data.position[4] = self._euler_data2['pitch']-self._euler_data1['pitch']
         self._pub.publish(jointstate_data)
 
     def _on_imu1_received(self, data):

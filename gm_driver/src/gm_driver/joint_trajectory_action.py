@@ -18,7 +18,7 @@ class JointTrajectoryActionServer():
         self._feedback = FollowJointTrajectoryFeedback()
         self._result = FollowJointTrajectoryResult()
         self._server = actionlib.SimpleActionServer(
-            'default_controller/follow_joint_trajectory',
+            'gold_miner_arm_controller/follow_joint_trajectory',
             FollowJointTrajectoryAction,
             execute_cb=self._on_trajectory_action)
         self._action_name = rospy.get_name()
@@ -27,7 +27,7 @@ class JointTrajectoryActionServer():
         rospy.Subscriber("/node_bridge/jointState",
                          jointState, self._on_nb_received)
         self._nb_bridge = bridge.NodeBridge('serial', port=0)
-        self._control_data = protocol.create_protocol_data('chassisData')
+        self._control_data = protocol.create_protocol_data('jointControl')
         self._packet_sequence = 0
         # fake_execution
         self._fake_execution = fake_execution
@@ -114,7 +114,7 @@ class JointTrajectoryActionServer():
         self._nb_stop()
 
     def _on_nb_received(self, data):
-        position_factor = 1/8192*3.14
+        position_factor = 1/8192*3.14*2
         self._position = [data.base_joint_position*position_factor, data.shoulder_joint_position*position_factor,
                           data.elbow_joint_position*position_factor, data.wrist_joint_1_position*position_factor, data.wrist_joint_2_position*position_factor]
 
@@ -123,14 +123,18 @@ class JointTrajectoryActionServer():
             self._position = goal_position
             self._pub.publish_position(goal_position)
         else:
-            self._control_data['base_joint_position'] = goal_position[0]
-            self._control_data['shoulder_joint_position'] = goal_position[1]
-            self._control_data['elbow_joint_position'] = goal_position[2]
-            self._control_data['wrist_joint_1_position'] = goal_position[3]
-            self._control_data['wrist_joint_2_position'] = goal_position[4]
+            position_factor = 1/3.14/2*8192
+            # self._control_data['base_joint_position'] = goal_position[0]*position_factor
+            # self._control_data['shoulder_joint_position'] = goal_position[1]*position_factor
+            # self._control_data['elbow_joint_position'] = goal_position[2]*position_factor
+            # self._control_data['wrist_joint_1_position'] = goal_position[3]*position_factor
+            # self._control_data['wrist_joint_2_position'] = goal_position[4]*position_factor
+            self._control_data['wrist_joint_1_position'] = 100
             control_packet = protocol.pack('jointControl', self._control_data, seq=self._packet_sequence)
-            self._packet_sequence += 1
-            self._bridge.send(control_packet)
+            rospy.loginfo(self._control_data)
+            rospy.loginfo(["%x"%x for x in control_packet])
+            self._packet_sequence = (self._packet_sequence+1)%256
+            self._nb_bridge.send(control_packet)
 
     def _nb_stop(self):
         pass
