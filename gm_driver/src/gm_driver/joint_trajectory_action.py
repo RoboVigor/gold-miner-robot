@@ -3,15 +3,16 @@
 
 import rospy
 import actionlib
-from node_bridge_ros.msg import jointInfo
+from node_bridge_ros.msg import jointState
 from trajectory_msgs.msg import JointTrajectoryPoint
 from control_msgs.msg import FollowJointTrajectoryAction, FollowJointTrajectoryFeedback, FollowJointTrajectoryResult
 from gm_driver.joint_state_publisher import JointStatePublisher
+from node_bridge import bridge, protocol
 
 
 class JointTrajectoryActionServer():
 
-    def __init__(self):
+    def __init__(self, fake_execution=False):
         self._node = rospy.init_node(
             'joint_trajectory_action', log_level=rospy.INFO)
         self._feedback = FollowJointTrajectoryFeedback()
@@ -20,13 +21,18 @@ class JointTrajectoryActionServer():
             'default_controller/follow_joint_trajectory',
             FollowJointTrajectoryAction,
             execute_cb=self._on_trajectory_action)
+        self._action_name = rospy.get_name()
         self._position = None
         self._position = [0, 0, 0, 0, 0]
-        self._action_name = rospy.get_name()
-        rospy.Subscriber("/node_bridge/jointInfo",
-                         jointInfo, self._on_nb_received)
+        rospy.Subscriber("/node_bridge/jointState",
+                         jointState, self._on_nb_received)
+        self._nb_bridge = bridge.NodeBridge('serial', port=0)
+        self._control_data = protocol.create_protocol_data('chassisData')
+        self._packet_sequence = 0
         # fake_execution
-        self._pub = JointStatePublisher(fake=True)
+        self._fake_execution = fake_execution
+        if fake_execution:
+            self._pub = JointStatePublisher(fake_execution=True)
 
     def _on_trajectory_action(self, goal):
         self._joint_names = goal.trajectory.joint_names
@@ -108,14 +114,23 @@ class JointTrajectoryActionServer():
         self._nb_stop()
 
     def _on_nb_received(self, data):
-        position_factor = 1/128*3.14
+        position_factor = 1/8192*3.14
         self._position = [data.base_joint_position*position_factor, data.shoulder_joint_position*position_factor,
                           data.elbow_joint_position*position_factor, data.wrist_joint_1_position*position_factor, data.wrist_joint_2_position*position_factor]
 
     def _nb_set_position(self, goal_position):
-        # fake_execution
-        self._position = goal_position
-        self._pub.publish_position(goal_position)
+        if self._fake_execution:
+            self._position = goal_position
+            self._pub.publish_position(goal_position)
+        else:
+            self._control_data['base_joint_position'] = goal_position[0]
+            self._control_data['shoulder_joint_position'] = goal_position[1]
+            self._control_data['elbow_joint_position'] = goal_position[2]
+            self._control_data['wrist_joint_1_position'] = goal_position[3]
+            self._control_data['wrist_joint_2_position'] = goal_position[4]
+            control_packet = protocol.pack('jointControl', self._control_data, seq=self._packet_sequence)
+            self._packet_sequence += 1
+            self._bridge.send(control_packet)
 
     def _nb_stop(self):
         pass
