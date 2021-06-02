@@ -1,4 +1,6 @@
 <launch>
+  <node name="bridge_ros" pkg="node_bridge_ros" type="bridge_ros.py" required="true"/>
   <node name="joint_state_publisher" pkg="gm_driver" type="joint_state_publisher.py" />
   <node name="joint_trajectory_action" pkg="gm_driver" type="joint_trajectory_action.py" />
+  <node name="joint_calibration" pkg="gm_driver" type="joint_calibration.py" />
 </launch>

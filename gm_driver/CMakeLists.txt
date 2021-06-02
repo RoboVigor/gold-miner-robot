@@ -165,6 +165,7 @@ include_directories(
 catkin_install_python(PROGRAMS
   src/gm_driver/joint_state_publisher.py
   src/gm_driver/joint_trajectory_action.py
+  src/gm_driver/joint_calibration.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

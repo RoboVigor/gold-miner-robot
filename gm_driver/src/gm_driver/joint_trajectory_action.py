@@ -3,7 +3,8 @@
 
 import rospy
 import actionlib
-from node_bridge_ros.msg import jointState
+from sensor_msgs.msg import JointState
+from node_bridge_ros.srv import send_jointControl, send_jointControlRequest
 from trajectory_msgs.msg import JointTrajectoryPoint
 from control_msgs.msg import FollowJointTrajectoryAction, FollowJointTrajectoryFeedback, FollowJointTrajectoryResult
 from gm_driver.joint_state_publisher import JointStatePublisher
@@ -15,6 +16,11 @@ class JointTrajectoryActionServer():
     def __init__(self, fake_execution=False):
         self._node = rospy.init_node(
             'joint_trajectory_action', log_level=rospy.INFO)
+        # fake_execution
+        self._fake_execution = fake_execution
+        if fake_execution:
+            self._pub = JointStatePublisher(fake_execution=True)
+        # action
         self._feedback = FollowJointTrajectoryFeedback()
         self._result = FollowJointTrajectoryResult()
         self._server = actionlib.SimpleActionServer(
@@ -22,17 +28,14 @@ class JointTrajectoryActionServer():
             FollowJointTrajectoryAction,
             execute_cb=self._on_trajectory_action)
         self._action_name = rospy.get_name()
-        self._position = None
+        # subsciber
         self._position = [0, 0, 0, 0, 0]
-        rospy.Subscriber("/node_bridge/jointState",
-                         jointState, self._on_nb_received)
-        self._nb_bridge = bridge.NodeBridge('serial', port=0)
-        self._control_data = protocol.create_protocol_data('jointControl')
-        self._packet_sequence = 0
-        # fake_execution
-        self._fake_execution = fake_execution
-        if fake_execution:
-            self._pub = JointStatePublisher(fake_execution=True)
+        rospy.wait_for_message('/joint_states', JointState)
+        rospy.Subscriber("/joint_states", JointState, self._on_joint_state_received)
+        # service proxy
+        rospy.wait_for_service('send_jointControl')
+        self._control_data = send_jointControlRequest()
+        self._send_jointControl = rospy.ServiceProxy('send_jointControl', send_jointControl)
 
     def _on_trajectory_action(self, goal):
         self._joint_names = goal.trajectory.joint_names
@@ -113,10 +116,8 @@ class JointTrajectoryActionServer():
         self._server.set_succeeded(self._result)
         self._nb_stop()
 
-    def _on_nb_received(self, data):
-        position_factor = 1/8192*3.14*2
-        self._position = [data.base_joint_position*position_factor, data.shoulder_joint_position*position_factor,
-                          data.elbow_joint_position*position_factor, data.wrist_joint_1_position*position_factor, data.wrist_joint_2_position*position_factor]
+    def _on_joint_state_received(self, states):
+        self._position = states.position
 
     def _nb_set_position(self, goal_position):
         if self._fake_execution:
@@ -124,17 +125,12 @@ class JointTrajectoryActionServer():
             self._pub.publish_position(goal_position)
         else:
             position_factor = 1/3.14/2*8192
-            # self._control_data['base_joint_position'] = goal_position[0]*position_factor
-            # self._control_data['shoulder_joint_position'] = goal_position[1]*position_factor
-            # self._control_data['elbow_joint_position'] = goal_position[2]*position_factor
-            # self._control_data['wrist_joint_1_position'] = goal_position[3]*position_factor
-            # self._control_data['wrist_joint_2_position'] = goal_position[4]*position_factor
-            self._control_data['wrist_joint_1_position'] = 100
-            control_packet = protocol.pack('jointControl', self._control_data, seq=self._packet_sequence)
-            rospy.loginfo(self._control_data)
-            rospy.loginfo(["%x"%x for x in control_packet])
-            self._packet_sequence = (self._packet_sequence+1)%256
-            self._nb_bridge.send(control_packet)
+            self._control_data.base_joint_position = int(goal_position[0]*position_factor)
+            self._control_data.shoulder_joint_position = int(goal_position[1]*position_factor)
+            self._control_data.elbow_joint_position = int(goal_position[2]*position_factor)
+            self._control_data.wrist_joint_1_position = int(-1*goal_position[3]*position_factor)
+            self._control_data.wrist_joint_2_position = int(goal_position[4]*position_factor)
+            result = self._send_jointControl(self._control_data)
 
     def _nb_stop(self):
         pass

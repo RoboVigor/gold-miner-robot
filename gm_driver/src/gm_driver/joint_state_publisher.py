@@ -39,7 +39,7 @@ class JointStatePublisher():
         jointstate_data.position[0] = 0
         jointstate_data.position[1] = 3.14/180*37
         jointstate_data.position[2] = self._euler_data2['pitch']-jointstate_data.position[1]
-        jointstate_data.position[3] = self._position[3]
+        jointstate_data.position[3] = -1*self._position[3]
         jointstate_data.position[4] = self._euler_data2['pitch']-self._euler_data1['pitch']
         self._pub.publish(jointstate_data)
 
