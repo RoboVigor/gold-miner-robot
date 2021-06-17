@@ -30,7 +30,7 @@ class JointTrajectoryActionServer():
         self._action_name = rospy.get_name()
         # subsciber
         self._position = [0, 0, 0, 0, 0]
-        rospy.wait_for_message('/joint_states', JointState)
+        # rospy.wait_for_message('/joint_states', JointState)
         rospy.Subscriber("/joint_states", JointState, self._on_joint_state_received)
         # service proxy
         rospy.wait_for_service('send_jointControl')

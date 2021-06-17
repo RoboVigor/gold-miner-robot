@@ -16,11 +16,14 @@ class JointStatePublisher():
         self._pub = rospy.Publisher('/joint_states', JointState, queue_size=10)
         self._euler_data1 = {'yaw':0, 'roll':0, 'pitch':0}
         self._euler_data2 = {'yaw':0, 'roll':0, 'pitch':0}
+        self._euler_data3 = {'yaw':0, 'roll':0, 'pitch':0}
         self._position = [0, 0, 0, 0, 0]
         rospy.Subscriber("/imu_raw_data1",
                          Imu_0x91_msg, self._on_imu1_received)
         rospy.Subscriber("/imu_raw_data2",
                          Imu_0x91_msg, self._on_imu2_received)
+        rospy.Subscriber("/imu_raw_data3",
+                         Imu_0x91_msg, self._on_imu3_received)
         if not fake_execution:
             rospy.Subscriber("/node_bridge/jointState",
                              jointState, self._on_nb_received)
@@ -36,8 +39,8 @@ class JointStatePublisher():
         jointstate_data.header.stamp = rospy.Duration.from_sec(rospy.get_time())
         jointstate_data.name = ['base_joint', 'shoulder_joint', 'elbow_joint', 'wrist_joint_1', 'wrist_joint_2']
         jointstate_data.position = [0]*5
-        jointstate_data.position[0] = 0
-        jointstate_data.position[1] = 3.14/180*37
+        jointstate_data.position[0] = self._euler_data3['yaw']
+        jointstate_data.position[1] = self._euler_data3['pitch']
         jointstate_data.position[2] = self._euler_data2['pitch']-jointstate_data.position[1]
         jointstate_data.position[3] = -1*self._position[3]
         jointstate_data.position[4] = self._euler_data2['pitch']-self._euler_data1['pitch']
@@ -55,6 +58,13 @@ class JointStatePublisher():
         self._euler_data2['roll'] =  data.eul_r * deg2rad
         self._euler_data2['pitch'] =  data.eul_p * deg2rad
         self._euler_data2['yaw'] =  data.eul_y * deg2rad
+        self.publish_position()
+
+    def _on_imu3_received(self, data):
+        deg2rad = 1/180*3.14
+        self._euler_data3['roll'] =  data.eul_r * deg2rad
+        self._euler_data3['pitch'] =  data.eul_p * deg2rad
+        self._euler_data3['yaw'] =  data.eul_y * deg2rad
         self.publish_position()
 
 
